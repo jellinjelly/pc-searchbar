@@ -1,0 +1,7 @@
+.list-type {
+  padding-left: 45px;
+}
+
+.type-container a:last-child {
+  border-bottom: 1px solid #aaa;
+}

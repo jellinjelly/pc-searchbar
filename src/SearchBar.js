@@ -1,20 +1,21 @@
 import {useState, useEffect} from 'react';
 import TypeView from './TypeView';
-import { SHOW_PRODUCT_AMOUNT } from './constants';
+import SearchView from './SearchView';
+import { SHOW_PRODUCT_AMOUNT, TABKEY } from './constants';
 import './SearchBar.css';
 
 const SearchBar = ({setIsShown, isShown}) => {
   const [data, setData] = useState([]);
-  const [searchView, setSearchView] = useState([]);
+  const [inputVal, setInputVal] = useState('');
+  const [searchProducts, setSearchProducts] = useState([]);
   const [suggestTypes, setSuggestTypes] = useState([]);
 
   function handleChange(e){
     if(e.target.value) {
-      setIsShown(true)
       let suggestedProducts = []
 
-      for(let product of data) {
-        // currently only shows up to 8 products in the dropdown - can be adjusted in constants.js
+      for(let product of data.products) {
+        // currently only shows up to first 8 matching products in the dropdown - can be adjusted in constants.js
         if(suggestedProducts.length < SHOW_PRODUCT_AMOUNT) {
           if(product.name.toLowerCase().includes(e.target.value.toLowerCase())) {
             suggestedProducts.push(product)
@@ -25,47 +26,39 @@ const SearchBar = ({setIsShown, isShown}) => {
       }
 
       let typeCounts = {}
-      let searchResultView = suggestedProducts.map((item, idx) => {
-        // counts number of times the type appears
+      suggestedProducts.forEach(item => {
         typeCounts[item.type] = typeCounts[item.type] + 1 || 1
-        let name = item.name.toLowerCase()
-        let completed = []
-        // split full name by isolating input value
-        name = name.split(e.target.value)
-        name.forEach((chunck, idx) => {
-          if(chunck && idx === 0){
-            completed.push(<span key={idx}><b>{chunck}</b></span>)
-          } else if(chunck){
-            completed.push(<span key={idx}>{e.target.value}<b>{chunck}</b></span>)
-          }
-        })
-        return <a href={item.url} key={item.name + idx}>{completed}</a>
       })
       let sortedTypeCounts = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])
+      setIsShown(true)
       setSuggestTypes(sortedTypeCounts)
-      setSearchView(searchResultView)
+      setSearchProducts(suggestedProducts)
+      setInputVal(e.target.value)
     } else {
       setIsShown(false);
     }
   }
 
-  function handleBlur(e) {
-    e.target.value = '';
-    setIsShown(false)
-  }
-
   useEffect(() => {
     fetch(`${process.env.PUBLIC_URL}/products.json`)
     .then(result => result.json())
-    .then(data => setData(data.products))
-  }, [])
+    .then(data => setData(data))
+    .catch(err => err)
+    if(!isShown){
+      setInputVal('')
+    }
+  }, [isShown])
 
   return (
     <>
-      <input type="text" placeholder="Search..." onChange={handleChange} onBlur={handleBlur} className="search-input"/>
+      <input type="text" value={inputVal} placeholder="Search..." onChange={handleChange} className="search-input"/>
       <div className={`dropdown ${isShown ? 'show' : 'hidden'}`}>
-        <TypeView data={suggestTypes}/>
-        {searchView}
+        { data ? (
+          <span data-testid="resolved">
+            <TypeView data={suggestTypes}/>
+            <SearchView data={searchProducts} inputVal={inputVal}/>
+          </span>
+        ) : null}
       </div>
     </>
   )

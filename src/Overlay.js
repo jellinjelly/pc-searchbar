@@ -1,6 +1,6 @@
-const Overlay = ({isShown}) => {
+const Overlay = ({isShown, setIsShown, handleClick}) => {
   return (
-    <div className={`overlay ${isShown ? 'show' : 'hidden'}`}></div>
+    <div onClickCapture={handleClick} className={`overlay ${isShown ? 'show' : 'hidden'}`}></div>
   )
 }
 

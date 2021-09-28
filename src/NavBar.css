@@ -1,4 +1,6 @@
 ul {
+  position: relative;
+  z-index: var(--z-index-lv2);
   height: 75px;
   list-style-type: none;
   margin: 0;

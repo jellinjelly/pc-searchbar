@@ -1,0 +1,5 @@
+const SHOW_PRODUCT_AMOUNT = 8;
+
+export {
+  SHOW_PRODUCT_AMOUNT
+}

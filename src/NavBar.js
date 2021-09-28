@@ -1,15 +1,14 @@
 import SearchBar from './SearchBar';
 import './NavBar.css';
 
-const NavBar = (props) => {
-  const {overlayRef} = props;
+const NavBar = ({setIsShown, isShown}) => {
 
   return (
     <ul>
-      <li><a href="http://google.com">Home</a></li>
-      <li><a href="http://google.com">About</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
       <li className="search-bar">
-        <SearchBar overlayRef={overlayRef}/>
+        <SearchBar setIsShown={setIsShown} isShown={isShown}/>
       </li>
     </ul>
   )

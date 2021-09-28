@@ -1,20 +1,21 @@
 import {useState, useEffect} from 'react';
 import TypeView from './TypeView';
+import { SHOW_PRODUCT_AMOUNT } from './constants';
 import './SearchBar.css';
 
-const SearchBar = (props) => {
-  const {overlayRef} = props;
+const SearchBar = ({setIsShown, isShown}) => {
   const [data, setData] = useState([]);
   const [searchView, setSearchView] = useState([]);
   const [suggestTypes, setSuggestTypes] = useState([]);
 
   function handleChange(e){
     if(e.target.value) {
-      e.target.nextSibling.style.display = 'block';
-      overlayRef.current.style.display = 'block';
+      setIsShown(true)
       let suggestedProducts = []
+
       for(let product of data) {
-        if(suggestedProducts.length < 8) {
+        // currently only shows up to 8 products in the dropdown - can be adjusted in constants.js
+        if(suggestedProducts.length < SHOW_PRODUCT_AMOUNT) {
           if(product.name.toLowerCase().includes(e.target.value.toLowerCase())) {
             suggestedProducts.push(product)
           }
@@ -22,12 +23,15 @@ const SearchBar = (props) => {
           break;
         }
       }
-      let typeCount = {}
-      let html = suggestedProducts.map((item, idx) => {
-        typeCount[item.type] = typeCount[item.type] + 1 || 1
+
+      let typeCounts = {}
+      let searchResultView = suggestedProducts.map((item, idx) => {
+        // counts number of times the type appears
+        typeCounts[item.type] = typeCounts[item.type] + 1 || 1
         let name = item.name.toLowerCase()
-        name = name.split(e.target.value)
         let completed = []
+        // split full name by isolating input value
+        name = name.split(e.target.value)
         name.forEach((chunck, idx) => {
           if(chunck && idx === 0){
             completed.push(<span key={idx}><b>{chunck}</b></span>)
@@ -37,13 +41,17 @@ const SearchBar = (props) => {
         })
         return <a href={item.url} key={item.name + idx}>{completed}</a>
       })
-      let sortedTypeCount = Object.entries(typeCount).sort((a, b) => b[1] - a[1])
-      setSuggestTypes(sortedTypeCount)
-      setSearchView(html)
+      let sortedTypeCounts = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])
+      setSuggestTypes(sortedTypeCounts)
+      setSearchView(searchResultView)
     } else {
-      e.target.nextSibling.style.display = 'none';
-      overlayRef.current.style.display = 'none';
+      setIsShown(false);
     }
+  }
+
+  function handleBlur(e) {
+    e.target.value = '';
+    setIsShown(false)
   }
 
   useEffect(() => {
@@ -54,8 +62,8 @@ const SearchBar = (props) => {
 
   return (
     <>
-      <input type="text" placeholder="Search..." onChange={handleChange} className="search-input"/>
-      <div className="dropdown">
+      <input type="text" placeholder="Search..." onChange={handleChange} onBlur={handleBlur} className="search-input"/>
+      <div className={`dropdown ${isShown ? 'show' : 'hidden'}`}>
         <TypeView data={suggestTypes}/>
         {searchView}
       </div>

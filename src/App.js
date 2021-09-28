@@ -1,15 +1,20 @@
-import {useRef} from 'react';
+import {useState} from 'react';
 import NavBar from './NavBar';
-import './App.css';
+import Overlay from './Overlay';
 
 function App() {
-  const overlayRef = useRef();
+  const [isShown, setIsShown] = useState(false);
+
   return (
-    <div className="App">
-      <NavBar overlayRef={overlayRef}/>
-      <div className="overlay" ref={overlayRef}></div>
-      <p>testing</p>
-    </div>
+    <>
+      <Overlay isShown={isShown}/>
+      <header>
+        <NavBar setIsShown={setIsShown} isShown={isShown}/>
+      </header>
+      <main>
+        <h1>Lorem Ipsum</h1>
+      </main>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import TypeView from './TypeView';
 import SearchView from './SearchView';
-import { SHOW_PRODUCT_AMOUNT, TABKEY } from './constants';
+import { SHOW_PRODUCT_AMOUNT } from './constants';
 import './SearchBar.css';
 
 const SearchBar = ({setIsShown, isShown}) => {

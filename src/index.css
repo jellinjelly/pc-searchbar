@@ -39,3 +39,7 @@ code {
 .show {
   display: block;
 }
+
+.hero-img {
+  max-width: 800px;
+}

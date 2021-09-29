@@ -18,6 +18,7 @@ function App() {
       </header>
       <main>
         <h1>Lorem Ipsum</h1>
+        <img src="https://www.personalcapital.com/blog/wp-content/uploads/2021/09/65-ways-retire-cover@2x.jpg" alt="65 ways to retire smart" className='hero-img'/>
       </main>
     </>
   );

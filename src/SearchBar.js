@@ -39,6 +39,14 @@ const SearchBar = ({setIsShown, isShown}) => {
     }
   }
 
+  function handleOnOptionFocus(e){
+    e.target.setAttribute('aria-selected', true);
+  }
+
+  function handleOnOptionBlur(e){
+    e.target.setAttribute('aria-selected', false);
+  }
+
   useEffect(() => {
     fetch(`${process.env.PUBLIC_URL}/products.json`)
     .then(result => result.json())
@@ -51,12 +59,12 @@ const SearchBar = ({setIsShown, isShown}) => {
 
   return (
     <>
-      <input type="text" value={inputVal} placeholder="Search..." onChange={handleChange} className="search-input"/>
-      <div className={`dropdown ${isShown ? 'show' : 'hidden'}`}>
+      <input id='dropdownMenuInput' type="text" value={inputVal} placeholder="Search..." onChange={handleChange} className="search-input" aria-autocomplete='list' role='combobox' aria-expanded={isShown}/>
+      <div className={`dropdown ${isShown ? 'show' : 'hidden'}`} aria-labelledby='dropdownMenuInput'>
         { data ? (
           <span data-testid="resolved">
-            <TypeView data={suggestTypes}/>
-            <SearchView data={searchProducts} inputVal={inputVal}/>
+            <TypeView data={suggestTypes} handleOnOptionFocus={handleOnOptionFocus} handleOnOptionBlur={handleOnOptionBlur} />
+            <SearchView data={searchProducts} inputVal={inputVal} handleOnOptionFocus={handleOnOptionFocus} handleOnOptionBlur={handleOnOptionBlur}/>
           </span>
         ) : null}
       </div>

@@ -13,7 +13,7 @@ describe('Search Bar unit test', () => {
     .mockResolvedValue({ json: jest.fn().mockResolvedValue(data)})
 
     const setIsShown = jest.fn()
-    const { getAllByText,debug,getByTestId,getByPlaceholderText } = render(<SearchBar setIsShown={setIsShown} isShown={true} />);
+    const { getAllByText, getByTestId, getByPlaceholderText } = render(<SearchBar setIsShown={setIsShown} isShown={true} />);
   await waitFor(() => getByTestId('resolved'))
     fireEvent.change(getByPlaceholderText('Search...'),{target: {value: 'amer'}})
   expect(getAllByText('amer')).toHaveLength(8)
@@ -25,7 +25,7 @@ describe('Search Bar unit test', () => {
     .mockResolvedValue({ json: jest.fn().mockResolvedValue(data)})
 
     const setIsShown = jest.fn()
-    const { getAllByText,debug,getByTestId,getByPlaceholderText } = render(<SearchBar setIsShown={setIsShown} isShown={true} />);
+    const { getByTestId, getByPlaceholderText } = render(<SearchBar setIsShown={setIsShown} isShown={true} />);
   await waitFor(() => getByTestId('resolved'))
     fireEvent.focusOut(getByPlaceholderText('Search...'))
   })

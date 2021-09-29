@@ -1,4 +1,4 @@
-const SearchView = ({data, inputVal}) => {
+const SearchView = ({data, inputVal, handleOnOptionFocus, handleOnOptionBlur}) => {
   let searchResultView = data.map((item, idx) => {
     let name = item.name.toLowerCase()
     let completed = []
@@ -11,7 +11,7 @@ const SearchView = ({data, inputVal}) => {
         completed.push(<span key={idx}>{inputVal}<b>{chunck}</b></span>)
       }
     })
-    return <a href={item.url} key={item.name + idx}>{completed}</a>
+    return <a href={item.url} onFocus={handleOnOptionFocus} onBlur={handleOnOptionBlur} key={item.name + idx} aria-label='dropdown menu item' role='option' aria-selected={false}  aria-posinset={idx+1} aria-setsize={data.length} >{completed}</a>
   })
 
   return (

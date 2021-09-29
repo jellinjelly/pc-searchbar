@@ -37,13 +37,14 @@ Contains constant variables used across the application
 | setIsShown | function : display of overlay and filtered searches |
 | isShown | boolean : for display of overlay and filtered searches |
 
-
 ## SearchView.js
 
 | props  |  description |
 |-------|--------------|
 | data | array: search results  |
 | inputVal | string : input value |
+| handleOnOptionFocus | function : sets aria-selected of option to true|
+| handleOnOptionBlur | function : sets aria-selected of option to false|
 
 ## TypeView.js
 

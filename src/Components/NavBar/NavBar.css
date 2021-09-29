@@ -1,4 +1,4 @@
-ul {
+ul.navbar {
   position: relative;
   z-index: var(--z-index-lv2);
   height: 75px;
@@ -10,11 +10,11 @@ ul {
   align-items: center;
 }
 
-li {
+.navbar li {
   float: left;
 }
 
-li a {
+.navbar li a {
   display: block;
   color: #000;;
   text-align: center;
@@ -22,14 +22,14 @@ li a {
   text-decoration: none;
 }
 
-li.search-bar {
+.navbar li a:hover {
+  background-color: rgb(206, 136, 136);
+}
+
+.navbar li.search-bar {
   max-width: 400px;
   width: 40%;
   position: relative;
   margin-left: auto;
   margin-right: 50px;
-}
-
-li a:hover {
-  background-color: rgb(206, 136, 136);
 }

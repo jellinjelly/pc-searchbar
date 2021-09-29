@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import NavBar from './NavBar';
-import Overlay from './Overlay';
+import NavBar from './Components/NavBar/NavBar';
+import Overlay from './Components/Overlay';
 
 function App() {
   const [isShown, setIsShown] = useState(false);

@@ -1,7 +1,7 @@
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import SearchBar from './SearchBar';
 import React from 'react';
-import data from '../public/products.json'
+import data from '../../../public/products.json';
 
 
 describe('Search Bar unit test', () => {
